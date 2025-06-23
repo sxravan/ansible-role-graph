@@ -2,7 +2,7 @@
 - name: Download grafana GPG key
   ansible.builtin.get_url:
     url: "{{ grafana_apt_key_url }}"
-    dest: "{{ apt_key_path }}/{{ grafana_package }}".asc
+    dest: "{{ apt_key_path }}/{{ grafana_package }}.asc"
     mode: '0644'
 
 - name: Add grafana APT repository
