@@ -8,10 +8,10 @@
 - name: Dearmor and install grafana key into trusted.gpg.d
   ansible.builtin.command: >
     gpg --batch --yes --dearmor
-        --output "{{ apt_key_path }}/{{ grafana_package }}.gpg"
+        --output "{{ apt_key_path }}/{{ grafana_package | first }}.gpg"
         /tmp/grafana.key
   args:
-    creates: "{{ apt_key_path }}/{{ grafana_package }}.gpg"
+    creates: "{{ apt_key_path }}/{{ grafana_package | first }}.gpg"
 
 - name: Delete temporary grafana key file
   ansible.builtin.file:

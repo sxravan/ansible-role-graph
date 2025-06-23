@@ -8,10 +8,10 @@
 - name: Dearmor and install InfluxData key into trusted.gpg.d
   ansible.builtin.command: >
     gpg --batch --yes --dearmor
-        --output "{{ apt_key_path }}/{{ influx_package }}.gpg"
+        --output "{{ apt_key_path }}/{{ influx_package | first }}.gpg"
         /tmp/influxdata-archive_compat.key
   args:
-    creates: "{{ apt_key_path }}/{{ influx_package }}.gpg"
+    creates: "{{ apt_key_path }}/{{ influx_package | first }}.gpg"
 
 - name: Delete temporary InfluxData key file
   ansible.builtin.file:
