@@ -1,15 +1,28 @@
 ---
-- name: Download influx GPG key
+- name: Download InfluxData archive compatibility key
   ansible.builtin.get_url:
     url: "{{ influx_apt_key_url }}"
-    dest: "{{ apt_key_path }}/{{ influx_package }}.asc"
+    dest: /tmp/influxdata-archive_compat.key
     mode: '0644'
 
-- name: Add influx APT repository
+- name: Dearmor and install InfluxData key into trusted.gpg.d
+  ansible.builtin.command: >
+    gpg --batch --yes --dearmor
+        --output "{{ apt_key_path }}/{{ influx_package }}.gpg"
+        /tmp/influxdata-archive_compat.key
+  args:
+    creates: "{{ apt_key_path }}/{{ influx_package }}.gpg"
+
+- name: Delete temporary InfluxData key file
+  ansible.builtin.file:
+    name: /tmp/influxdata-archive_compat.key
+    state: absent
+
+- name: Add InfluxData APT repository
   ansible.builtin.apt_repository:
     repo: "{{ influx_apt_repo }}"
-    state: present
     filename: influx
+    state: present
 
 - name: Update apt cache after adding influxdb repo
   ansible.builtin.apt:
