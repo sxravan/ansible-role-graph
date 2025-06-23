@@ -19,7 +19,7 @@
 
 - name: Install influxdb
   include_tasks: install-influxdb.yml 
-  when: "'influxdb' not in ansible_facts.packages"
+  when: "'influxdb2' not in ansible_facts.packages"
 
 - name: Install grafana
   include_tasks: install-grafana.yml
