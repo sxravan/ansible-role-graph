@@ -4,12 +4,16 @@
 apt_key_path: /etc/apt/trusted.gpg.d
 
 # influx APT repository info
-influx_apt_repo: "deb [arch=amd64 signed-by={{ apt_key_path }}/{{ influx_package }}.gpg] https://repos.influxdata.com/debian stable main"
+influx_apt_repo: "deb [arch=amd64 signed-by={{ apt_key_path }}/{{ influx_package | first }}.gpg] https://repos.influxdata.com/debian stable main"
 influx_apt_key_url: "https://repos.influxdata.com/influxdata-archive_compat.key"
-influx_package: influxdb
-influx_service: influxdb
+influx_package: 
+  - influxdb2
+  - influxdb2-cli
+  - influxdb2-client
+influx_service: influxdb2
 
-grafana_apt_repo: "deb [arch=amd64 signed-by={{ apt_key_path }}/{{ grafana_package }}.gpg] https://apt.grafana.com stable main"
+grafana_apt_repo: "deb [arch=amd64 signed-by={{ apt_key_path }}/{{ grafana_package | first }}.gpg] https://apt.grafana.com stable main"
 grafana_apt_key_url: "https://apt.grafana.com/gpg.key"
-grafana_package: grafana
-grafana_service: grafana
+grafana_package:
+  - grafana
+grafana_service: grafana-server

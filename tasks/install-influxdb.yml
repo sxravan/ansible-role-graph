@@ -27,12 +27,14 @@
 - name: Update apt cache after adding influxdb repo
   ansible.builtin.apt:
     update_cache: yes
-  when: influxdb_apt_repo is defined
+  when: influx_apt_repo is defined
 
-- name: Install influxdb package
+- name: Install influxdb2 packages
   ansible.builtin.apt:
-    name: "{{ influxdb_package }}"
+    name: "{{ item }}"
     state: present
+  loop:
+    - "{{ influx_package }}"
 
 - name: Ensure influxdb is enabled and started
   ansible.builtin.service:

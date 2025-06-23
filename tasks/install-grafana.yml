@@ -29,10 +29,12 @@
     update_cache: yes
   when: grafana_apt_repo is defined
 
-- name: Install grafana package
+- name: Install grafana packages
   ansible.builtin.apt:
-    name: "{{ grafana_package }}"
+    name: "{{ item }}"
     state: present
+  loop:
+    - "{{ grafana_package }}"
 
 - name: Ensure grafana is enabled and started
   ansible.builtin.service:
