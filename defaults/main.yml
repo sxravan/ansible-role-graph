@@ -8,9 +8,7 @@ influx_apt_repo: "deb [arch=amd64 signed-by={{ apt_key_path }}/{{ influx_package
 influx_apt_key_url: "https://repos.influxdata.com/influxdata-archive_compat.key"
 influx_package: 
   - influxdb2
-influx_service:
-  - influxdb
-  - influxd
+influx_service: influxdb
 
 grafana_apt_repo: "deb [arch=amd64 signed-by={{ apt_key_path }}/{{ grafana_package | first }}.gpg] https://apt.grafana.com stable main"
 grafana_apt_key_url: "https://apt.grafana.com/gpg.key"

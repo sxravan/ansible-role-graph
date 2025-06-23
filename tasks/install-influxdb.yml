@@ -38,8 +38,12 @@
 
 - name: Ensure influxdb is enabled and started
   ansible.builtin.service:
-    name: "{{ item }}"
+    name: influxdb
     enabled: yes
     state: started
-  loop:
-    - "{{ influx_service }}"
+
+- name: Ensure influxd is enabled and started
+  ansible.builtin.service:
+    name: influxd
+    enabled: yes
+    state: started
