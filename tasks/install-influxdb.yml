@@ -7,7 +7,7 @@
 
 - name: Add influx APT repository
   ansible.builtin.apt_repository:
-    repo: "{{ influx_apt_repo | replace('bullseye', influx_debian_codename) }}"
+    repo: "{{ influx_apt_repo }}"
     state: present
     filename: influx
 

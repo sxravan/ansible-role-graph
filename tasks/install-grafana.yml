@@ -7,7 +7,7 @@
 
 - name: Add grafana APT repository
   ansible.builtin.apt_repository:
-    repo: "{{ grafana_apt_repo | replace('bullseye', grafana_debian_codename) }}"
+    repo: "{{ grafana_apt_repo }}"
     state: present
     filename: grafana
 
