@@ -4,8 +4,8 @@
 apt_key_path: /etc/apt/trusted.gpg.d
 
 # influx APT repository info
-influx_apt_repo: "deb [arch=amd64 signed-by={{ apt_key_path }}/{{ influx_package }}.asc] https://repos.influxdata.com/debian stable main'"
-influx_apt_key_url: "https://repos.influxdata.com/influxdb.key"
+influx_apt_repo: "deb [arch=amd64 signed-by={{ apt_key_path }}/{{ influx_package }}.asc] https://repos.influxdata.com/debian stable main"
+influx_apt_key_url: "https://repos.influxdata.com/influxdata-archive_compat.key"
 influx_package: influxdb
 influx_service: influxdb
 
