@@ -12,3 +12,15 @@
     path: {{ apt_key_path }}
     state: directory
     mode: '0755'
+
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: apt
+
+- name: Install influxdb
+  include_tasks: install-influxdb.yml 
+  when: "'influxdb' not in ansible_facts.packages"
+
+- name: Install grafana
+  include_tasks: install-grafana.yml
+  when: "'grafana' not in ansible_facts.packages"
