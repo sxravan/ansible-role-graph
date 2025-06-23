@@ -9,7 +9,7 @@
 
 - name: Ensure trusted.gpg.d directory exists
   file:
-    path: {{ apt_key_path }}
+    path: "{{ apt_key_path }}"
     state: directory
     mode: '0755'
 
