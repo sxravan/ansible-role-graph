@@ -8,7 +8,6 @@ influx_apt_repo: "deb [arch=amd64 signed-by={{ apt_key_path }}/{{ influx_package
 influx_apt_key_url: "https://repos.influxdata.com/influxdata-archive_compat.key"
 influx_package: 
   - influxdb2
-  - influxdb2-cli
   - influxdb2-client
 influx_service: influxdb2
 
