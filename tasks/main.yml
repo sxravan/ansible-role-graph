@@ -1,0 +1,14 @@
+---
+- name: Ensure apt-transport-https and ca-certificates are installed
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+    state: present
+    update_cache: yes
+
+- name: Ensure trusted.gpg.d directory exists
+  file:
+    path: {{ apt_key_path }}
+    state: directory
+    mode: '0755'

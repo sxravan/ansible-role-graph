@@ -1,0 +1,15 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for ansible-role-graph
+apt_key_path: /etc/apt/trusted.gpg.d
+
+# influx APT repository info
+influx_apt_repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/influx-archive-keyring.gpg] deb https://repos.influxdata.com/debian bullseye stable"
+influx_apt_key_url: "https://repos.influxdata.com/influxdb.key"
+influx_package: influxdb
+influx_service: influxdb
+
+grafana_apt_repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/grafana-archive-keyring.gpg] deb https://apt.grafana.com stable main"
+grafana_apt_key_url: "https://apt.grafana.com/gpg.key"
+grafana_package: grafana
+grafana_service: grafana

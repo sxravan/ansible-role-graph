@@ -1,0 +1,28 @@
+---
+- name: Download influx GPG key
+  ansible.builtin.get_url:
+    url: "{{ influx_apt_key_url }}"
+    dest: {{ apt_key_path }}/{{ influx_package }}.asc
+    mode: '0644'
+
+- name: Add influx APT repository
+  ansible.builtin.apt_repository:
+    repo: "{{ influx_apt_repo | replace('bullseye', influx_debian_codename) }}"
+    state: present
+    filename: influx
+
+- name: Update apt cache after adding influxdb repo
+  ansible.builtin.apt:
+    update_cache: yes
+  when: influxdb_apt_repo is defined
+
+- name: Install influxdb package
+  ansible.builtin.apt:
+    name: "{{ influxdb_package }}"
+    state: present
+
+- name: Ensure influxdb is enabled and started
+  ansible.builtin.service:
+    name: "{{ influxdb_service }}"
+    enabled: yes
+    state: started
