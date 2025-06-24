@@ -3,6 +3,10 @@
   {%- if var is defined -%}
     {%- set v = var -%}
     {%- set prefix = '' -%}
+  {%- else -%}
+    {%- set v = default -%}
+    {%- set prefix = '#' -%}
+  {%- endif -%}
 {{ prefix }}{{ key }} = {% if json or (v is sequence and v is not string) %}{{ v | tojson }}{% elif v is boolean %}{{ v | lower }}{% elif v is number %}{{ v }}{% else %}"{{ v }}"{% endif %}
   {%- endif -%}
 {% endmacro %}
