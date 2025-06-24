@@ -1,4 +1,4 @@
-{% raw %}{# Macro to comment out undefined settings #}
+{# Macro to comment out undefined settings #}
 {% macro opt(key, var, default, json=false) -%}
 {%- if var is defined -%}
 {{ key }} = {{ var if not json else var|tojson }}

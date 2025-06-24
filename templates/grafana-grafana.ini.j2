@@ -1,4 +1,4 @@
-{% raw %}{# Define a macro to comment settings if undefined #}
+{# Define a macro to comment settings if undefined #}
 {% macro opt(key, var, default) -%}
 {%- if var is defined -%}
 {{ key }} = {{ var }}
