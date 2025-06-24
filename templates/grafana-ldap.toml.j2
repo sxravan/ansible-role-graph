@@ -3,7 +3,7 @@
   {%- if var is defined -%}
     {%- set v = var -%}
     {%- set prefix = '' -%}
-{{ prefix }}{{ key }} = {% if json or (v is sequence and v is not string) %}{{ v | tojson }}{% elif v is boolean %}{{ v | lower }}{% elif v is number %}{{ v }}{% else %}"{{ v }}"
+{{ prefix }}{{ key }} = {% if json or (v is sequence and v is not string) %}{{ v | tojson }}{% elif v is boolean %}{{ v | lower }}{% elif v is number %}{{ v }}{% else %}"{{ v }}"{% endif %}
   {%- endif -%}
 {% endmacro %}
 # This file is managed by Ansible. Do not edit manually.
