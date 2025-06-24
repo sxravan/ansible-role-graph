@@ -1,0 +1,36 @@
+{% raw %}{# Macro to comment out undefined settings #}
+{% macro opt(key, var, default, json=false) -%}
+{%- if var is defined -%}
+{{ key }} = {{ var if not json else var|tojson }}
+{%- else -%}
+;{{ key }} = {{ default if not json else default|tojson }}
+{%- endif -%}
+{%- endmacro %}
+[[servers]]
+{{ opt('host', grafana_ldap_host, '"127.0.0.1"') }}
+{{ opt('port', grafana_ldap_port, '389') }}
+{{ opt('use_ssl', grafana_ldap_use_ssl, 'false') }}
+{{ opt('start_tls', grafana_ldap_start_tls, 'false') }}
+{{ opt('tls_ciphers', grafana_ldap_tls_ciphers, '[]') }}
+{{ opt('min_tls_version', grafana_ldap_min_tls_version, '""') }}
+{{ opt('ssl_skip_verify', grafana_ldap_ssl_skip_verify, 'false') }}
+{{ opt('bind_dn', grafana_ldap_bind_dn, '"cn=admin,dc=grafana,dc=org"') }}
+{{ opt('bind_password', grafana_ldap_bind_password, ''grafana'') }}
+{{ opt('timeout', grafana_ldap_timeout, '10') }}
+{{ opt('search_filter', grafana_ldap_search_filter, '"(cn=%s)"') }}
+{{ opt('search_base_dns', grafana_ldap_search_base_dns, '["dc=grafana,dc=org"]') }}
+
+[servers.attributes]
+{{ opt('name', grafana_ldap_attributes_name, '"givenName"') }}
+{{ opt('surname', grafana_ldap_attributes_surname, '"sn"') }}
+{{ opt('username', grafana_ldap_attributes_username, '"cn"') }}
+{{ opt('member_of', grafana_ldap_attributes_member_of, '"memberOf"') }}
+{{ opt('email', grafana_ldap_attributes_email, '"email"') }}
+
+{% for m in grafana_ldap_group_mappings %}
+[[servers.group_mappings]]
+group_dn = "{{ m.group_dn }}"
+org_role = "{{ m.org_role }}"
+{% if m.grafana_admin is defined %}grafana_admin = {{ m.grafana_admin | lower }}{% endif %}
+{% if m.org_id is defined %}org_id = {{ m.org_id }}{% endif %}
+{% endfor %}

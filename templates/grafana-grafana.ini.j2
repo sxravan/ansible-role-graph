@@ -1,0 +1,915 @@
+{% raw %}{# Define a macro to comment settings if undefined #}
+{% macro opt(key, var, default) -%}
+{%- if var is defined -%}
+{{ key }} = {{ var }}
+{%- else -%}
+;{{ key }} = {{ default }}
+{%- endif -%}
+{%- endmacro %}
+
+{{ opt('app_mode', grafana_app_mode, "production" }}
+{{ opt('instance_name', grafana_instance_name, ${"HOSTNAME}" }}
+
+[paths]
+{{ opt('data', grafana_paths_data, "/var/lib/grafana" }}
+{{ opt('temp_data_lifetime', grafana_paths_temp_data_lifetime, "24h" }}
+{{ opt('logs', grafana_paths_logs, "/var/log/grafana" }}
+{{ opt('plugins', grafana_paths_plugins, "/var/lib/grafana/plugins" }}
+{{ opt('provisioning', grafana_paths_provisioning, "conf/provisioning" }}
+{{ opt('permitted_provisioning_paths', grafana_paths_permitted_provisioning_paths, "devenv/dev-dashboards|conf/provisioning" }}
+
+[server]
+{{ opt('protocol', grafana_server_protocol, "http" }}
+{{ opt('min_tls_version', grafana_server_min_tls_version, "") }}
+{{ opt('http_addr', grafana_server_http_addr, "") }}
+{{ opt('http_port', grafana_server_http_port, "3000" }}
+{{ opt('domain', grafana_server_domain, "localhost" }}
+{{ opt('enforce_domain', grafana_server_enforce_domain, "false" }}
+{{ opt('root_url', grafana_server_root_url, "%(protocol)s://%(domain)s:%(http_port)s/" }}
+{{ opt('serve_from_sub_path', grafana_server_serve_from_sub_path, "false" }}
+{{ opt('router_logging', grafana_server_router_logging, "false" }}
+{{ opt('static_root_path', grafana_server_static_root_path, "public" }}
+{{ opt('enable_gzip', grafana_server_enable_gzip, "false" }}
+{{ opt('cert_file', grafana_server_cert_file, "") }}
+{{ opt('cert_key', grafana_server_cert_key, "") }}
+{{ opt('cert_pass', grafana_server_cert_pass, "") }}
+{{ opt('certs_watch_interval', grafana_server_certs_watch_interval, "") }}
+{{ opt('socket_gid', grafana_server_socket_gid, "") }}
+{{ opt('socket_mode', grafana_server_socket_mode, "") }}
+{{ opt('socket', grafana_server_socket, "") }}
+{{ opt('cdn_url', grafana_server_cdn_url, "") }}
+{{ opt('read_timeout', grafana_server_read_timeout, "0" }}
+
+[server.custom_response_headers]
+
+[environment]
+{{ opt('local_file_system_available', grafana_environment_local_file_system_available, true) }}
+
+[grpc_server]
+{{ opt('network', grafana_grpc_server_network, "tcp") }}
+{{ opt('address', grafana_grpc_server_address, "127.0.0.1:10000") }}
+{{ opt('use_tls', grafana_grpc_server_use_tls, false) }}
+{{ opt('cert_file', grafana_grpc_server_cert_file, "") }}
+{{ opt('key_file', grafana_grpc_server_key_file, "") }}
+{{ opt('max_recv_msg_size', grafana_grpc_server_max_recv_msg_size, "") }}
+{{ opt('max_send_msg_size', grafana_grpc_server_max_send_msg_size, "") }}
+{{ opt('enable_logging', grafana_grpc_server_enable_logging, false) }}
+
+[database]
+{{ opt('type', grafana_db_type, "sqlite3") }}
+{{ opt('host', grafana_db_host, "127.0.0.1:3306") }}
+{{ opt('name', grafana_db_name, "grafana") }}
+{{ opt('user', grafana_db_user, "root") }}
+{{ opt('password', grafana_db_password, "") }}
+{{ opt('url', grafana_db_url, "") }}
+{{ opt('ssl_mode', grafana_db_ssl_mode, "disable") }}
+{{ opt('ssl_sni', grafana_db_ssl_sni, "") }}
+{{ opt('high_availability', grafana_db_high_availability, true) }}
+{{ opt('max_idle_conn', grafana_db_max_idle_conn, 2) }}
+{{ opt('max_open_conn', grafana_db_max_open_conn, "") }}
+{{ opt('conn_max_lifetime', grafana_db_conn_max_lifetime, 14400) }}
+{{ opt('log_queries', grafana_db_log_queries, "") }}
+{{ opt('isolation_level', grafana_db_isolation_level, "") }}
+{{ opt('ca_cert_path', grafana_db_ca_cert_path, "") }}
+{{ opt('client_key_path', grafana_db_client_key_path, "") }}
+{{ opt('client_cert_path', grafana_db_client_cert_path, "") }}
+{{ opt('server_cert_name', grafana_db_server_cert_name, "") }}
+{{ opt('path', grafana_db_path, "grafana.db") }}
+{{ opt('cache_mode', grafana_db_cache_mode, "private") }}
+{{ opt('wal', grafana_db_wal, "false") }}
+{{ opt('migration_locking', grafana_db_migration_locking, "true") }}
+{{ opt('locking_attempt_timeout_sec', grafana_db_locking_attempt_timeout_sec, "0") }}
+{{ opt('query_retries', grafana_db_query_retries, "0") }}
+{{ opt('transaction_retries', grafana_db_transaction_retries, "5") }}
+{{ opt('instrument_queries', grafana_db_instrument_queries, "false") }}
+
+[remote_cache]
+{{ opt('type', grafana_remote_cache_type, "database") }}
+{{ opt('connstr', grafana_remote_cache_connstr, "") }}
+{{ opt('prefix', grafana_remote_cache_prefix, "") }}
+{{ opt('encryption', grafana_remote_cache_encryption, "") }}
+
+[dataproxy]
+{{ opt('logging', grafana_dataproxy_logging, false) }}
+{{ opt('timeout', grafana_dataproxy_timeout, 30) }}
+{{ opt('dialTimeout', grafana_dataproxy_dial_timeout, 10) }}
+{{ opt('keep_alive_seconds', grafana_dataproxy_keep_alive_seconds, 30) }}
+{{ opt('tls_handshake_timeout_seconds', grafana_dataproxy_tls_handshake_timeout_seconds, 10) }}
+{{ opt('expect_continue_timeout_seconds', grafana_dataproxy_expect_continue_timeout_seconds, 1) }}
+{{ opt('max_conns_per_host', grafana_dataproxy_max_conns_per_host, 0) }}
+{{ opt('max_idle_connections', grafana_dataproxy_max_idle_connections, 100) }}
+{{ opt('idle_conn_timeout_seconds', grafana_dataproxy_idle_conn_timeout_seconds, 90) }}
+{{ opt('send_user_header', grafana_dataproxy_send_user_header, false) }}
+{{ opt('response_limit', grafana_dataproxy_response_limit, 0) }}
+;row_limit = 1000000
+;user_agent =
+
+[analytics]
+{{ opt('reporting_enabled', grafana_reporting_enabled, true) }}
+{{ opt('reporting_distributor', grafana_reporting_distributor, "grafana-labs") }}
+{{ opt('check_for_updates', grafana_check_for_updates, true) }}
+{{ opt('check_for_plugin_updates', grafana_check_for_plugin_updates, true) }}
+{{ opt('google_analytics_ua_id', grafana_google_analytics_ua_id, "") }}
+{{ opt('google_analytics_4_id', grafana_google_analytics_4_id, "") }}
+{{ opt('google_analytics_4_send_manual_page_views', grafana_google_analytics_4_send_manual_page_views, false) }}
+{{ opt('google_tag_manager_id', grafana_google_tag_manager_id, "") }}
+{{ opt('rudderstack_write_key', grafana_rudderstack_write_key, "") }}
+{{ opt('rudderstack_data_plane_url', grafana_rudderstack_data_plane_url, "") }}
+{{ opt('rudderstack_sdk_url', grafana_rudderstack_sdk_url, "") }}
+{{ opt('rudderstack_config_url', grafana_rudderstack_config_url, "") }}
+{{ opt('rudderstack_integrations_url', grafana_rudderstack_integrations_url, "") }}
+{{ opt('intercom_secret', grafana_intercom_secret, "") }}
+{{ opt('application_insights_connection_string', grafana_application_insights_connection_string, "") }}
+{{ opt('application_insights_endpoint_url', grafana_application_insights_endpoint_url, "") }}
+{{ opt('feedback_links_enabled', grafana_feedback_links_enabled, true) }}
+{{ opt('reporting_static_context', grafana_reporting_static_context, "grafanaInstance=12, os=linux") }}
+{{ opt('browser_console_reporter', grafana_browser_console_reporter, false) }}
+
+[security]
+{{ opt('disable_initial_admin_creation', grafana_disable_initial_admin_creation, false) }}
+{{ opt('admin_user', grafana_admin_user, "admin") }}
+{{ opt('admin_password', grafana_admin_password, "admin") }}
+{{ opt('admin_email', grafana_admin_email, "admin@localhost") }}
+{{ opt('secret_key', grafana_secret_key, "SW2YcwTIb9zpOOhoPsMm") }}
+{{ opt('encryption_provider', grafana_encryption_provider, "secretKey.v1") }}
+{{ opt('available_encryption_providers', grafana_available_encryption_providers, "") }}
+{{ opt('disable_gravatar', grafana_disable_gravatar, false) }}
+{{ opt('data_source_proxy_whitelist', grafana_data_source_proxy_whitelist, "") }}
+{{ opt('disable_brute_force_login_protection', grafana_disable_brute_force_login_protection, false) }}
+{{ opt('brute_force_login_protection_max_attempts', grafana_brute_force_login_protection_max_attempts, 5) }}
+{{ opt('disable_ip_address_login_protection', grafana_disable_ip_address_login_protection, true) }}
+{{ opt('cookie_secure', grafana_cookie_secure, false) }}
+{{ opt('cookie_samesite', grafana_cookie_samesite, 'lax') }}
+{{ opt('allow_embedding', grafana_allow_embedding, false) }}
+{{ opt('strict_transport_security', grafana_strict_transport_security, false) }}
+{{ opt('strict_transport_security_max_age_seconds', grafana_strict_transport_security_max_age_seconds, 86400) }}
+{{ opt('strict_transport_security_preload', grafana_strict_transport_security_preload, false) }}
+{{ opt('strict_transport_security_subdomains', grafana_strict_transport_security_subdomains, false) }}
+{{ opt('x_content_type_options', grafana_x_content_type_options, true) }}
+{{ opt('x_xss_protection', grafana_x_xss_protection, true) }}
+{{ opt('content_security_policy', grafana_content_security_policy, false) }}
+{{ opt('content_security_policy_template', grafana_content_security_policy_template, 'script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;object-src 'none';font-src 'self';style-src 'self' 'unsafe-inline' blob:;img-src * data:;base-uri 'self';connect-src 'self' grafana.com ws://$ROOT_PATH wss://$ROOT_PATH;manifest-src 'self';media-src 'none';form-action 'self';') }}
+{{ opt('content_security_policy_report_only', grafana_content_security_policy_report_only, false) }}
+{{ opt('content_security_policy_report_only_template', grafana_content_security_policy_report_only_template, 'script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;object-src 'none';font-src 'self';style-src 'self' 'unsafe-inline' blob:;img-src * data:;base-uri 'self';connect-src 'self' grafana.com ws://$ROOT_PATH wss://$ROOT_PATH;manifest-src 'self';media-src 'none';form-action 'self';') }}
+{{ opt('angular_support_enabled', grafana_angular_support_enabled, false) }}
+{{ opt('csrf_trusted_origins', grafana_csrf_trusted_origins, 'example.com') }}
+{{ opt('csrf_additional_headers', grafana_csrf_additional_headers, '') }}
+{{ opt('csrf_always_check', grafana_csrf_always_check, false) }}
+{{ opt('enable_frontend_sandbox_for_plugins', grafana_enable_frontend_sandbox_for_plugins, '') }}
+{{ opt('actions_allow_post_url', grafana_actions_allow_post_url, '') }}
+
+[security.encryption]
+{{ opt('data_keys_cache_ttl', grafana_data_keys_cache_ttl, '15m') }}
+{{ opt('data_keys_cache_cleanup_interval', grafana_data_keys_cache_cleanup_interval, '1m') }}
+
+[snapshots]
+{{ opt('enabled', grafana_enabled, true) }}
+{{ opt('external_enabled', grafana_external_enabled, true) }}
+{{ opt('external_snapshot_url', grafana_external_snapshot_url, 'https://snapshots.raintank.io') }}
+{{ opt('external_snapshot_name', grafana_external_snapshot_name, 'Publish to snapshots.raintank.io') }}
+{{ opt('public_mode', grafana_public_mode, false) }}
+
+[dashboards]
+{{ opt('versions_to_keep', grafana_versions_to_keep, 20) }}
+{{ opt('min_refresh_interval', grafana_min_refresh_interval, '5s') }}
+{{ opt('default_home_dashboard_path', grafana_default_home_dashboard_path, '') }}
+
+[datasources]
+{{ opt('datasource_limit', grafana_datasource_limit, 5000) }}
+{{ opt('concurrent_query_count', grafana_concurrent_query_count, 10) }}
+{{ opt('default_manage_alerts_ui_toggle', grafana_default_manage_alerts_ui_toggle, true) }}
+
+[sql_datasources]
+{{ opt('max_open_conns_default', grafana_max_open_conns_default, 100) }}
+{{ opt('max_idle_conns_default', grafana_max_idle_conns_default, 100) }}
+{{ opt('max_conn_lifetime_default', grafana_max_conn_lifetime_default, 14400) }}
+
+[users]
+{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
+{{ opt('allow_org_create', grafana_allow_org_create, true) }}
+{{ opt('auto_assign_org', grafana_auto_assign_org, true) }}
+{{ opt('auto_assign_org_id', grafana_auto_assign_org_id, 1) }}
+{{ opt('auto_assign_org_role', grafana_auto_assign_org_role, 'Viewer') }}
+{{ opt('verify_email_enabled', grafana_verify_email_enabled, false) }}
+{{ opt('login_default_org_id', grafana_login_default_org_id, '') }}
+{{ opt('login_hint', grafana_login_hint, 'email or username') }}
+{{ opt('password_hint', grafana_password_hint, 'password') }}
+{{ opt('default_theme', grafana_default_theme, 'dark') }}
+{{ opt('default_language', grafana_default_language, 'en-US') }}
+{{ opt('home_page', grafana_home_page, '') }}
+{{ opt('external_manage_link_url', grafana_external_manage_link_url, '') }}
+{{ opt('external_manage_link_name', grafana_external_manage_link_name, '') }}
+{{ opt('external_manage_info', grafana_external_manage_info, '') }}
+{{ opt('viewers_can_edit', grafana_viewers_can_edit, false) }}
+{{ opt('editors_can_admin', grafana_editors_can_admin, false) }}
+{{ opt('user_invite_max_lifetime_duration', grafana_user_invite_max_lifetime_duration, '24h') }}
+{{ opt('verification_email_max_lifetime_duration', grafana_verification_email_max_lifetime_duration, '1h') }}
+{{ opt('last_seen_update_interval', grafana_last_seen_update_interval, '15m') }}
+{{ opt('hidden_users', grafana_hidden_users, '') }}
+
+[secretscan]
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('interval', grafana_interval, '5m') }}
+{{ opt('base_url', grafana_base_url, 'https://secret-scanning.grafana.net') }}
+{{ opt('oncall_url', grafana_oncall_url, '') }}
+{{ opt('revoke', grafana_revoke, true) }}
+
+[service_accounts]
+{{ opt('token_expiration_day_limit', grafana_token_expiration_day_limit, '') }}
+
+[auth]
+{{ opt('login_cookie_name', grafana_login_cookie_name, 'grafana_session') }}
+{{ opt('disable_login', grafana_disable_login, false) }}
+{{ opt('login_maximum_inactive_lifetime_duration', grafana_login_maximum_inactive_lifetime_duration, '') }}
+{{ opt('login_maximum_lifetime_duration', grafana_login_maximum_lifetime_duration, '') }}
+{{ opt('token_rotation_interval_minutes', grafana_token_rotation_interval_minutes, 10) }}
+{{ opt('disable_login_form', grafana_disable_login_form, false) }}
+{{ opt('disable_signout_menu', grafana_disable_signout_menu, false) }}
+{{ opt('signout_redirect_url', grafana_signout_redirect_url, '') }}
+{{ opt('oauth_auto_login', grafana_oauth_auto_login, false) }}
+{{ opt('oauth_login_error_message', grafana_oauth_login_error_message, 'oauth.login.error') }}
+{{ opt('oauth_state_cookie_max_age', grafana_oauth_state_cookie_max_age, 600) }}
+{{ opt('oauth_refresh_token_server_lock_min_wait_ms', grafana_oauth_refresh_token_server_lock_min_wait_ms, 1000) }}
+{{ opt('api_key_max_seconds_to_live', grafana_api_key_max_seconds_to_live, '-1') }}
+{{ opt('sigv4_auth_enabled', grafana_sigv4_auth_enabled, false) }}
+{{ opt('sigv4_verbose_logging', grafana_sigv4_verbose_logging, false) }}
+{{ opt('azure_auth_enabled', grafana_azure_auth_enabled, false) }}
+{{ opt('oauth_allow_insecure_email_lookup', grafana_oauth_allow_insecure_email_lookup, false) }}
+{{ opt('id_response_header_enabled', grafana_id_response_header_enabled, false) }}
+{{ opt('id_response_header_prefix', grafana_id_response_header_prefix, 'X-Grafana') }}
+{{ opt('id_response_header_namespaces', grafana_id_response_header_namespaces, 'user api-key service-account') }}
+{{ opt('managed_service_accounts_enabled', grafana_managed_service_accounts_enabled, false) }}
+
+[auth.anonymous]
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('org_name', grafana_org_name, 'Main Org.') }}
+{{ opt('org_role', grafana_org_role, 'Viewer') }}
+{{ opt('hide_version', grafana_hide_version, false) }}
+{{ opt('device_limit', grafana_device_limit, '') }}
+
+[auth.github]
+{{ opt('name', grafana_name, 'GitHub') }}
+{{ opt('icon', grafana_icon, 'github') }}
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
+{{ opt('auto_login', grafana_auto_login, false) }}
+{{ opt('client_id', grafana_client_id, 'some_id') }}
+{{ opt('client_secret', grafana_client_secret, 'some_secret') }}
+{{ opt('scopes', grafana_scopes, 'user:email,read:org') }}
+{{ opt('auth_url', grafana_auth_url, 'https://github.com/login/oauth/authorize') }}
+{{ opt('token_url', grafana_token_url, 'https://github.com/login/oauth/access_token') }}
+{{ opt('api_url', grafana_api_url, 'https://api.github.com/user') }}
+{{ opt('signout_redirect_url', grafana_signout_redirect_url, '') }}
+{{ opt('allowed_domains', grafana_allowed_domains, '') }}
+{{ opt('team_ids', grafana_team_ids, '') }}
+{{ opt('allowed_organizations', grafana_allowed_organizations, '') }}
+{{ opt('role_attribute_path', grafana_role_attribute_path, '') }}
+{{ opt('role_attribute_strict', grafana_role_attribute_strict, false) }}
+{{ opt('org_mapping', grafana_org_mapping, '') }}
+{{ opt('allow_assign_grafana_admin', grafana_allow_assign_grafana_admin, false) }}
+{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
+{{ opt('tls_skip_verify_insecure', grafana_tls_skip_verify_insecure, false) }}
+{{ opt('tls_client_cert', grafana_tls_client_cert, '') }}
+{{ opt('tls_client_key', grafana_tls_client_key, '') }}
+{{ opt('tls_client_ca', grafana_tls_client_ca, '') }}
+{{ opt('use_refresh_token', grafana_use_refresh_token, false) }}
+
+[auth.gitlab]
+{{ opt('name', grafana_name, 'GitLab') }}
+{{ opt('icon', grafana_icon, 'gitlab') }}
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
+{{ opt('auto_login', grafana_auto_login, false) }}
+{{ opt('client_id', grafana_client_id, 'some_id') }}
+{{ opt('client_secret', grafana_client_secret, 'some_secret') }}
+{{ opt('scopes', grafana_scopes, 'openid email profile') }}
+{{ opt('auth_url', grafana_auth_url, 'https://gitlab.com/oauth/authorize') }}
+{{ opt('token_url', grafana_token_url, 'https://gitlab.com/oauth/token') }}
+{{ opt('api_url', grafana_api_url, 'https://gitlab.com/api/v4') }}
+{{ opt('signout_redirect_url', grafana_signout_redirect_url, '') }}
+{{ opt('allowed_domains', grafana_allowed_domains, '') }}
+{{ opt('allowed_groups', grafana_allowed_groups, '') }}
+{{ opt('role_attribute_path', grafana_role_attribute_path, '') }}
+{{ opt('role_attribute_strict', grafana_role_attribute_strict, false) }}
+{{ opt('org_mapping', grafana_org_mapping, '') }}
+{{ opt('allow_assign_grafana_admin', grafana_allow_assign_grafana_admin, false) }}
+{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
+{{ opt('tls_skip_verify_insecure', grafana_tls_skip_verify_insecure, false) }}
+{{ opt('tls_client_cert', grafana_tls_client_cert, '') }}
+{{ opt('tls_client_key', grafana_tls_client_key, '') }}
+{{ opt('tls_client_ca', grafana_tls_client_ca, '') }}
+{{ opt('use_pkce', grafana_use_pkce, true) }}
+{{ opt('use_refresh_token', grafana_use_refresh_token, true) }}
+
+[auth.google]
+{{ opt('name', grafana_name, 'Google') }}
+{{ opt('icon', grafana_icon, 'google') }}
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
+{{ opt('auto_login', grafana_auto_login, false) }}
+{{ opt('client_id', grafana_client_id, 'some_client_id') }}
+{{ opt('client_secret', grafana_client_secret, 'some_client_secret') }}
+{{ opt('scopes', grafana_scopes, 'openid email profile') }}
+{{ opt('auth_url', grafana_auth_url, 'https://accounts.google.com/o/oauth2/v2/auth') }}
+{{ opt('token_url', grafana_token_url, 'https://oauth2.googleapis.com/token') }}
+{{ opt('api_url', grafana_api_url, 'https://openidconnect.googleapis.com/v1/userinfo') }}
+{{ opt('signout_redirect_url', grafana_signout_redirect_url, '') }}
+{{ opt('allowed_domains', grafana_allowed_domains, '') }}
+{{ opt('validate_hd', grafana_validate_hd, '') }}
+{{ opt('hosted_domain', grafana_hosted_domain, '') }}
+{{ opt('allowed_groups', grafana_allowed_groups, '') }}
+{{ opt('role_attribute_path', grafana_role_attribute_path, '') }}
+{{ opt('role_attribute_strict', grafana_role_attribute_strict, false) }}
+{{ opt('org_mapping', grafana_org_mapping, '') }}
+{{ opt('allow_assign_grafana_admin', grafana_allow_assign_grafana_admin, false) }}
+{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
+{{ opt('tls_skip_verify_insecure', grafana_tls_skip_verify_insecure, false) }}
+{{ opt('tls_client_cert', grafana_tls_client_cert, '') }}
+{{ opt('tls_client_key', grafana_tls_client_key, '') }}
+{{ opt('tls_client_ca', grafana_tls_client_ca, '') }}
+{{ opt('use_pkce', grafana_use_pkce, true) }}
+{{ opt('use_refresh_token', grafana_use_refresh_token, true) }}
+
+[auth.grafana_com]
+{{ opt('name', grafana_name, 'Grafana.com') }}
+{{ opt('icon', grafana_icon, 'grafana') }}
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
+{{ opt('auto_login', grafana_auto_login, false) }}
+{{ opt('client_id', grafana_client_id, 'some_id') }}
+{{ opt('client_secret', grafana_client_secret, 'some_secret') }}
+{{ opt('scopes', grafana_scopes, 'user:email') }}
+{{ opt('allowed_organizations', grafana_allowed_organizations, '') }}
+{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
+{{ opt('use_refresh_token', grafana_use_refresh_token, false) }}
+
+[auth.azuread]
+{{ opt('name', grafana_name, 'Microsoft') }}
+{{ opt('icon', grafana_icon, 'microsoft') }}
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
+{{ opt('auto_login', grafana_auto_login, false) }}
+{{ opt('client_authentication', grafana_client_authentication, '') }}
+{{ opt('client_id', grafana_client_id, 'some_client_id') }}
+{{ opt('client_secret', grafana_client_secret, 'some_client_secret') }}
+{{ opt('managed_identity_client_id', grafana_managed_identity_client_id, '') }}
+{{ opt('federated_credential_audience', grafana_federated_credential_audience, '') }}
+{{ opt('scopes', grafana_scopes, 'openid email profile') }}
+{{ opt('auth_url', grafana_auth_url, 'https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/authorize') }}
+{{ opt('token_url', grafana_token_url, 'https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token') }}
+{{ opt('signout_redirect_url', grafana_signout_redirect_url, '') }}
+{{ opt('allowed_domains', grafana_allowed_domains, '') }}
+{{ opt('allowed_groups', grafana_allowed_groups, '') }}
+{{ opt('allowed_organizations', grafana_allowed_organizations, '') }}
+{{ opt('role_attribute_strict', grafana_role_attribute_strict, false) }}
+{{ opt('org_mapping', grafana_org_mapping, '') }}
+{{ opt('allow_assign_grafana_admin', grafana_allow_assign_grafana_admin, false) }}
+{{ opt('use_pkce', grafana_use_pkce, true) }}
+{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
+{{ opt('use_refresh_token', grafana_use_refresh_token, true) }}
+
+[auth.okta]
+{{ opt('name', grafana_name, 'Okta') }}
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
+{{ opt('auto_login', grafana_auto_login, false) }}
+{{ opt('client_id', grafana_client_id, 'some_id') }}
+{{ opt('client_secret', grafana_client_secret, 'some_secret') }}
+{{ opt('scopes', grafana_scopes, 'openid profile email groups') }}
+{{ opt('auth_url', grafana_auth_url, 'https://<tenant-id>.okta.com/oauth2/v1/authorize') }}
+{{ opt('token_url', grafana_token_url, 'https://<tenant-id>.okta.com/oauth2/v1/token') }}
+{{ opt('api_url', grafana_api_url, 'https://<tenant-id>.okta.com/oauth2/v1/userinfo') }}
+{{ opt('signout_redirect_url', grafana_signout_redirect_url, '') }}
+{{ opt('allowed_domains', grafana_allowed_domains, '') }}
+{{ opt('allowed_groups', grafana_allowed_groups, '') }}
+{{ opt('role_attribute_path', grafana_role_attribute_path, '') }}
+{{ opt('role_attribute_strict', grafana_role_attribute_strict, false) }}
+{{ opt('org_attribute_path', grafana_org_attribute_path, '') }}
+{{ opt('org_mapping', grafana_org_mapping, '') }}
+{{ opt('allow_assign_grafana_admin', grafana_allow_assign_grafana_admin, false) }}
+{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
+{{ opt('tls_skip_verify_insecure', grafana_tls_skip_verify_insecure, false) }}
+{{ opt('tls_client_cert', grafana_tls_client_cert, '') }}
+{{ opt('tls_client_key', grafana_tls_client_key, '') }}
+{{ opt('tls_client_ca', grafana_tls_client_ca, '') }}
+{{ opt('use_pkce', grafana_use_pkce, true) }}
+{{ opt('use_refresh_token', grafana_use_refresh_token, true) }}
+
+[auth.generic_oauth]
+{{ opt('name', grafana_name, 'OAuth') }}
+{{ opt('icon', grafana_icon, 'signin') }}
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
+{{ opt('auto_login', grafana_auto_login, false) }}
+{{ opt('client_id', grafana_client_id, 'some_id') }}
+{{ opt('client_secret', grafana_client_secret, 'some_secret') }}
+{{ opt('scopes', grafana_scopes, 'user:email,read:org') }}
+{{ opt('empty_scopes', grafana_empty_scopes, false) }}
+{{ opt('email_attribute_name', grafana_email_attribute_name, 'email:primary') }}
+{{ opt('email_attribute_path', grafana_email_attribute_path, '') }}
+{{ opt('login_attribute_path', grafana_login_attribute_path, '') }}
+{{ opt('name_attribute_path', grafana_name_attribute_path, '') }}
+{{ opt('role_attribute_path', grafana_role_attribute_path, '') }}
+{{ opt('role_attribute_strict', grafana_role_attribute_strict, false) }}
+{{ opt('groups_attribute_path', grafana_groups_attribute_path, '') }}
+{{ opt('id_token_attribute_name', grafana_id_token_attribute_name, '') }}
+{{ opt('auth_url', grafana_auth_url, 'https://foo.bar/login/oauth/authorize') }}
+{{ opt('token_url', grafana_token_url, 'https://foo.bar/login/oauth/access_token') }}
+{{ opt('api_url', grafana_api_url, 'https://foo.bar/user') }}
+{{ opt('signout_redirect_url', grafana_signout_redirect_url, '') }}
+{{ opt('teams_url', grafana_teams_url, '') }}
+{{ opt('allowed_domains', grafana_allowed_domains, '') }}
+{{ opt('team_ids', grafana_team_ids, '') }}
+{{ opt('allowed_organizations', grafana_allowed_organizations, '') }}
+{{ opt('org_attribute_path', grafana_org_attribute_path, '') }}
+{{ opt('org_mapping', grafana_org_mapping, '') }}
+{{ opt('team_ids_attribute_path', grafana_team_ids_attribute_path, '') }}
+{{ opt('tls_skip_verify_insecure', grafana_tls_skip_verify_insecure, false) }}
+{{ opt('tls_client_cert', grafana_tls_client_cert, '') }}
+{{ opt('tls_client_key', grafana_tls_client_key, '') }}
+{{ opt('tls_client_ca', grafana_tls_client_ca, '') }}
+{{ opt('use_pkce', grafana_use_pkce, false) }}
+{{ opt('auth_style', grafana_auth_style, '') }}
+{{ opt('allow_assign_grafana_admin', grafana_allow_assign_grafana_admin, false) }}
+{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
+{{ opt('use_refresh_token', grafana_use_refresh_token, false) }}
+
+[auth.basic]
+{{ opt('enabled', grafana_enabled, true) }}
+{{ opt('password_policy', grafana_password_policy, false) }}
+
+[auth.proxy]
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('header_name', grafana_header_name, 'X-WEBAUTH-USER') }}
+{{ opt('header_property', grafana_header_property, 'username') }}
+{{ opt('auto_sign_up', grafana_auto_sign_up, true) }}
+{{ opt('sync_ttl', grafana_sync_ttl, 60) }}
+{{ opt('whitelist', grafana_whitelist, '192.168.1.1, 192.168.2.1') }}
+{{ opt('headers', grafana_headers, 'Email:X-User-Email, Name:X-User-Name') }}
+{{ opt('headers_encoded', grafana_headers_encoded, false) }}
+{{ opt('enable_login_token', grafana_enable_login_token, false) }}
+
+[auth.jwt]
+{{ opt('enabled', grafana_enabled, true) }}
+{{ opt('enable_login_token', grafana_enable_login_token, false) }}
+{{ opt('header_name', grafana_header_name, 'X-JWT-Assertion') }}
+{{ opt('email_claim', grafana_email_claim, 'sub') }}
+{{ opt('username_claim', grafana_username_claim, 'sub') }}
+{{ opt('email_attribute_path', grafana_email_attribute_path, 'jmespath.email') }}
+{{ opt('username_attribute_path', grafana_username_attribute_path, 'jmespath.username') }}
+{{ opt('jwk_set_url', grafana_jwk_set_url, 'https://foo.bar/.well-known/jwks.json') }}
+{{ opt('jwk_set_file', grafana_jwk_set_file, '/path/to/jwks.json') }}
+{{ opt('cache_ttl', grafana_cache_ttl, '60m') }}
+{{ opt('expect_claims', grafana_expect_claims, '{aud: [foo, bar]}') }}
+
+{{ opt('key_file', grafana_key_file, '/path/to/key/file') }}
+{{ opt('key_id', grafana_key_id, 'some-key-id') }}
+{{ opt('role_attribute_path', grafana_role_attribute_path, '') }}
+{{ opt('role_attribute_strict', grafana_role_attribute_strict, false) }}
+{{ opt('org_attribute_path', grafana_org_attribute_path, '') }}
+{{ opt('org_mapping', grafana_org_mapping, '') }}
+{{ opt('groups_attribute_path', grafana_groups_attribute_path, '') }}
+{{ opt('auto_sign_up', grafana_auto_sign_up, false) }}
+{{ opt('url_login', grafana_url_login, false) }}
+{{ opt('allow_assign_grafana_admin', grafana_allow_assign_grafana_admin, false) }}
+{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
+{{ opt('signout_redirect_url', grafana_signout_redirect_url, '') }}
+{{ opt('tls_skip_verify_insecure', grafana_tls_skip_verify_insecure, false) }}
+
+[auth.ldap]
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('config_file', grafana_config_file, '/etc/grafana/ldap.toml') }}
+{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
+{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
+{{ opt('sync_cron', grafana_sync_cron, '0 1 * * *') }}
+{{ opt('active_sync_enabled', grafana_active_sync_enabled, true) }}
+
+[aws]
+{{ opt('allowed_auth_providers', grafana_allowed_auth_providers, 'default,keys,credentials') }}
+{{ opt('assume_role_enabled', grafana_assume_role_enabled, true) }}
+{{ opt('list_metrics_page_limit', grafana_list_metrics_page_limit, 500) }}
+{{ opt('external_id', grafana_external_id, '') }}
+{{ opt('session_duration', grafana_session_duration, '15m') }}
+{{ opt('forward_settings_to_plugins', grafana_forward_settings_to_plugins, 'cloudwatch, grafana-athena-datasource, grafana-redshift-datasource, grafana-x-ray-datasource, grafana-timestream-datasource, grafana-iot-sitewise-datasource, grafana-iot-twinmaker-app, grafana-opensearch-datasource, aws-datasource-provisioner, elasticsearch, prometheus') }}
+
+[azure]
+{{ opt('cloud', grafana_cloud, 'AzureCloud') }}
+{{ opt('clouds_config', grafana_clouds_config, '`[') }}
+
+{{ opt('managed_identity_enabled', grafana_managed_identity_enabled, false) }}
+{{ opt('managed_identity_client_id', grafana_managed_identity_client_id, '') }}
+{{ opt('workload_identity_enabled', grafana_workload_identity_enabled, false) }}
+{{ opt('workload_identity_tenant_id', grafana_workload_identity_tenant_id, '') }}
+{{ opt('workload_identity_client_id', grafana_workload_identity_client_id, '') }}
+{{ opt('workload_identity_token_file', grafana_workload_identity_token_file, '') }}
+{{ opt('user_identity_enabled', grafana_user_identity_enabled, false) }}
+{{ opt('user_identity_fallback_credentials_enabled', grafana_user_identity_fallback_credentials_enabled, true) }}
+{{ opt('user_identity_token_url', grafana_user_identity_token_url, '') }}
+{{ opt('user_identity_client_authentication', grafana_user_identity_client_authentication, '') }}
+{{ opt('user_identity_client_id', grafana_user_identity_client_id, '') }}
+{{ opt('user_identity_client_secret', grafana_user_identity_client_secret, '') }}
+{{ opt('user_identity_managed_identity_client_id', grafana_user_identity_managed_identity_client_id, '') }}
+{{ opt('user_identity_federated_credential_audience', grafana_user_identity_federated_credential_audience, '') }}
+{{ opt('username_assertion', grafana_username_assertion, '') }}
+{{ opt('forward_settings_to_plugins', grafana_forward_settings_to_plugins, 'grafana-azure-monitor-datasource, prometheus, grafana-azure-data-explorer-datasource, mssql, grafana-azureprometheus-datasourc') }}
+{{ opt('azure_entra_password_credentials_enabled', grafana_azure_entra_password_credentials_enabled, false) }}
+
+[rbac]
+{{ opt('permission_cache', grafana_permission_cache, true) }}
+{{ opt('permission_validation_enabled', grafana_permission_validation_enabled, true) }}
+
+[smtp]
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('host', grafana_host, 'localhost:25') }}
+{{ opt('user', grafana_user, '') }}
+{{ opt('password', grafana_password, '') }}
+{{ opt('cert_file', grafana_cert_file, '') }}
+{{ opt('key_file', grafana_key_file, '') }}
+{{ opt('skip_verify', grafana_skip_verify, false) }}
+{{ opt('from_address', grafana_from_address, 'admin@grafana.localhost') }}
+{{ opt('from_name', grafana_from_name, 'Grafana') }}
+{{ opt('ehlo_identity', grafana_ehlo_identity, 'dashboard.example.com') }}
+{{ opt('startTLS_policy', grafana_startTLS_policy, 'NoStartTLS') }}
+{{ opt('enable_tracing', grafana_enable_tracing, false) }}
+
+[smtp.static_headers]
+{{ opt('Foo-Header', grafana_Foo-Header, 'bar') }}
+{{ opt('Foo', grafana_Foo, 'bar') }}
+
+[emails]
+{{ opt('welcome_email_on_sign_up', grafana_welcome_email_on_sign_up, false) }}
+{{ opt('templates_pattern', grafana_templates_pattern, 'emails/*.html, emails/*.txt') }}
+{{ opt('content_types', grafana_content_types, 'text/html') }}
+
+[log]
+{{ opt('mode', grafana_mode, 'console file') }}
+{{ opt('level', grafana_level, 'info') }}
+{{ opt('filters', grafana_filters, '') }}
+{{ opt('user_facing_default_error', grafana_user_facing_default_error, 'please inspect Grafana server log for details') }}
+
+[log.console]
+{{ opt('level', grafana_level, '') }}
+{{ opt('format', grafana_format, 'console') }}
+
+[log.file]
+{{ opt('level', grafana_level, '') }}
+{{ opt('format', grafana_format, 'text') }}
+{{ opt('log_rotate', grafana_log_rotate, true) }}
+{{ opt('max_lines', grafana_max_lines, 1000000) }}
+{{ opt('max_size_shift', grafana_max_size_shift, 28) }}
+{{ opt('daily_rotate', grafana_daily_rotate, true) }}
+{{ opt('max_days', grafana_max_days, 7) }}
+
+[log.syslog]
+{{ opt('level', grafana_level, '') }}
+{{ opt('format', grafana_format, 'text') }}
+{{ opt('network', grafana_network, '') }}
+{{ opt('address', grafana_address, '') }}
+{{ opt('facility', grafana_facility, '') }}
+{{ opt('tag', grafana_tag, '') }}
+
+[log.frontend]
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('custom_endpoint', grafana_custom_endpoint, '/log-grafana-javascript-agent') }}
+{{ opt('log_endpoint_requests_per_second_limit', grafana_log_endpoint_requests_per_second_limit, 3) }}
+{{ opt('log_endpoint_burst_limit', grafana_log_endpoint_burst_limit, 15) }}
+{{ opt('instrumentations_all_enabled', grafana_instrumentations_all_enabled, false) }}
+{{ opt('instrumentations_errors_enabled', grafana_instrumentations_errors_enabled, true) }}
+{{ opt('instrumentations_console_enabled', grafana_instrumentations_console_enabled, false) }}
+{{ opt('instrumentations_webvitals_enabled', grafana_instrumentations_webvitals_enabled, false) }}
+{{ opt('instrumentations_tracing_enabled', grafana_instrumentations_tracing_enabled, false) }}
+{{ opt('api_key', grafana_api_key, 'testApiKey') }}
+
+[quota]
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('org_user', grafana_org_user, 10) }}
+{{ opt('org_dashboard', grafana_org_dashboard, 100) }}
+{{ opt('org_data_source', grafana_org_data_source, 10) }}
+{{ opt('org_api_key', grafana_org_api_key, 10) }}
+{{ opt('org_alert_rule', grafana_org_alert_rule, 100) }}
+{{ opt('user_org', grafana_user_org, 10) }}
+{{ opt('global_user', grafana_global_user, '-1') }}
+{{ opt('global_org', grafana_global_org, '-1') }}
+{{ opt('global_dashboard', grafana_global_dashboard, '-1') }}
+{{ opt('global_api_key', grafana_global_api_key, '-1') }}
+{{ opt('global_session', grafana_global_session, '-1') }}
+{{ opt('global_alert_rule', grafana_global_alert_rule, '-1') }}
+{{ opt('global_file', grafana_global_file, 1000) }}
+{{ opt('global_correlations', grafana_global_correlations, '-1') }}
+{{ opt('alerting_rule_group_rules', grafana_alerting_rule_group_rules, 100) }}
+{{ opt('alerting_rule_evaluation_results', grafana_alerting_rule_evaluation_results, '-1') }}
+
+[unified_alerting]
+{{ opt('enabled', grafana_enabled, true) }}
+{{ opt('disabled_orgs', grafana_disabled_orgs, '') }}
+{{ opt('initialization_timeout', grafana_initialization_timeout, '30s') }}
+{{ opt('admin_config_poll_interval', grafana_admin_config_poll_interval, '60s') }}
+{{ opt('alertmanager_config_poll_interval', grafana_alertmanager_config_poll_interval, '60s') }}
+{{ opt('alertmanager_max_silences_count', grafana_alertmanager_max_silences_count, '') }}
+{{ opt('alertmanager_max_silence_size_bytes', grafana_alertmanager_max_silence_size_bytes, '') }}
+{{ opt('ha_redis_cluster_mode_enabled', grafana_ha_redis_cluster_mode_enabled, false) }}
+{{ opt('ha_redis_address', grafana_ha_redis_address, '') }}
+{{ opt('ha_redis_username', grafana_ha_redis_username, '') }}
+{{ opt('ha_redis_password', grafana_ha_redis_password, '') }}
+{{ opt('ha_redis_db', grafana_ha_redis_db, '') }}
+{{ opt('ha_redis_prefix', grafana_ha_redis_prefix, '') }}
+{{ opt('ha_redis_peer_name', grafana_ha_redis_peer_name, '') }}
+{{ opt('ha_listen_address', grafana_ha_listen_address, '0.0.0.0:9094') }}
+{{ opt('ha_advertise_address', grafana_ha_advertise_address, '') }}
+{{ opt('ha_peers', grafana_ha_peers, '') }}
+{{ opt('ha_peer_timeout', grafana_ha_peer_timeout, '15s') }}
+{{ opt('ha_label', grafana_ha_label, '') }}
+{{ opt('ha_gossip_interval', grafana_ha_gossip_interval, '200ms') }}
+{{ opt('ha_reconnect_timeout', grafana_ha_reconnect_timeout, '6h') }}
+{{ opt('ha_push_pull_interval', grafana_ha_push_pull_interval, '60s') }}
+{{ opt('execute_alerts', grafana_execute_alerts, true) }}
+{{ opt('evaluation_timeout', grafana_evaluation_timeout, '30s') }}
+{{ opt('max_attempts', grafana_max_attempts, 3) }}
+{{ opt('min_interval', grafana_min_interval, '10s') }}
+{{ opt('max_state_save_concurrency', grafana_max_state_save_concurrency, 1) }}
+{{ opt('state_periodic_save_interval', grafana_state_periodic_save_interval, '5m') }}
+{{ opt('state_periodic_save_batch_size', grafana_state_periodic_save_batch_size, 1) }}
+{{ opt('disable_jitter', grafana_disable_jitter, false) }}
+{{ opt('notification_log_retention', grafana_notification_log_retention, '5d') }}
+{{ opt('resolved_alert_retention', grafana_resolved_alert_retention, '15m') }}
+{{ opt('rule_version_record_limit', grafana_rule_version_record_limit, 0) }}
+{{ opt('deleted_rule_retention', grafana_deleted_rule_retention, '30d') }}
+
+[unified_alerting.screenshots]
+{{ opt('capture', grafana_capture, false) }}
+{{ opt('capture_timeout', grafana_capture_timeout, '10s') }}
+{{ opt('max_concurrent_screenshots', grafana_max_concurrent_screenshots, 5) }}
+{{ opt('upload_external_image_storage', grafana_upload_external_image_storage, false) }}
+
+[unified_alerting.reserved_labels]
+{{ opt('disabled_labels', grafana_disabled_labels, '') }}
+
+[unified_alerting.state_history]
+{{ opt('enabled', grafana_enabled, true) }}
+{{ opt('backend', grafana_backend, 'multiple') }}
+{{ opt('primary', grafana_primary, 'loki') }}
+{{ opt('secondaries', grafana_secondaries, 'annotations') }}
+{{ opt('loki_remote_url', grafana_loki_remote_url, 'http://loki:3100') }}
+{{ opt('loki_remote_read_url', grafana_loki_remote_read_url, 'http://loki-querier:3100') }}
+{{ opt('loki_remote_write_url', grafana_loki_remote_write_url, 'http://loki-distributor:3100') }}
+{{ opt('loki_tenant_id', grafana_loki_tenant_id, 123) }}
+{{ opt('loki_basic_auth_username', grafana_loki_basic_auth_username, 'myuser') }}
+{{ opt('loki_basic_auth_password', grafana_loki_basic_auth_password, 'mypass') }}
+{{ opt('loki_max_query_length', grafana_loki_max_query_length, '360h') }}
+{{ opt('loki_max_query_size', grafana_loki_max_query_size, 65536) }}
+
+[unified_alerting.state_history.external_labels]
+{{ opt('mylabelkey', grafana_mylabelkey, 'mylabelvalue') }}
+
+[unified_alerting.state_history.annotations]
+{{ opt('max_age', grafana_max_age, '') }}
+{{ opt('max_annotations_to_keep', grafana_max_annotations_to_keep, '') }}
+
+[unified_alerting.prometheus_conversion]
+{{ opt('rule_query_offset', grafana_rule_query_offset, '1m') }}
+
+[recording_rules]
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('url', grafana_url, '') }}
+{{ opt('basic_auth_username', grafana_basic_auth_username, '') }}
+{{ opt('basic_auth_password', grafana_basic_auth_password, '') }}
+{{ opt('timeout', grafana_timeout, '30s') }}
+{{ opt('default_datasource_uid', grafana_default_datasource_uid, '') }}
+
+[recording_rules.custom_headers]
+
+[annotations]
+{{ opt('cleanupjob_batchsize', grafana_cleanupjob_batchsize, 100) }}
+{{ opt('tags_length', grafana_tags_length, 500) }}
+
+[annotations.dashboard]
+{{ opt('max_age', grafana_max_age, '') }}
+{{ opt('max_annotations_to_keep', grafana_max_annotations_to_keep, '') }}
+
+[annotations.api]
+{{ opt('max_age', grafana_max_age, '') }}
+{{ opt('max_annotations_to_keep', grafana_max_annotations_to_keep, '') }}
+
+[explore]
+{{ opt('enabled', grafana_enabled, true) }}
+
+[help]
+{{ opt('enabled', grafana_enabled, true) }}
+
+[profile]
+{{ opt('enabled', grafana_enabled, true) }}
+
+[news]
+{{ opt('news_feed_enabled', grafana_news_feed_enabled, true) }}
+
+[query]
+{{ opt('concurrent_query_limit', grafana_concurrent_query_limit, '') }}
+
+[query_history]
+{{ opt('enabled', grafana_enabled, true) }}
+
+[short_links]
+{{ opt('expire_time', grafana_expire_time, 7) }}
+
+[metrics]
+{{ opt('enabled', grafana_enabled, true) }}
+{{ opt('interval_seconds', grafana_interval_seconds, 10) }}
+{{ opt('disable_total_stats', grafana_disable_total_stats, false) }}
+{{ opt('total_stats_collector_interval_seconds', grafana_total_stats_collector_interval_seconds, 1800) }}
+{{ opt('basic_auth_username', grafana_basic_auth_username, '') }}
+{{ opt('basic_auth_password', grafana_basic_auth_password, '') }}
+
+[metrics.environment_info]
+
+[metrics.graphite]
+{{ opt('address', grafana_address, '') }}
+{{ opt('prefix', grafana_prefix, 'prod.grafana.%(instance_name)s.') }}
+
+[grafana_com]
+{{ opt('url', grafana_url, 'https://grafana.com') }}
+{{ opt('api_url', grafana_api_url, 'https://grafana.com/api') }}
+{{ opt('sso_api_token', grafana_sso_api_token, '') }}
+
+[tracing.jaeger]
+{{ opt('address', grafana_address, 'localhost:6831') }}
+{{ opt('always_included_tag', grafana_always_included_tag, 'tag1:value1') }}
+{{ opt('sampler_type', grafana_sampler_type, 'const') }}
+{{ opt('sampler_param', grafana_sampler_param, 1) }}
+{{ opt('sampling_server_url', grafana_sampling_server_url, '') }}
+{{ opt('zipkin_propagation', grafana_zipkin_propagation, false) }}
+{{ opt('disable_shared_zipkin_spans', grafana_disable_shared_zipkin_spans, false) }}
+
+[tracing.opentelemetry]
+{{ opt('custom_attributes', grafana_custom_attributes, 'key1:value1,key2:value2') }}
+{{ opt('sampler_type', grafana_sampler_type, 'remote') }}
+{{ opt('sampler_param', grafana_sampler_param, '0.5') }}
+{{ opt('sampling_server_url', grafana_sampling_server_url, 'http://localhost:5778/sampling') }}
+
+[tracing.opentelemetry.jaeger]
+{{ opt('address', grafana_address, 'http://localhost:14268/api/traces') }}
+{{ opt('propagation', grafana_propagation, 'jaeger') }}
+
+[tracing.opentelemetry.otlp]
+{{ opt('address', grafana_address, 'localhost:4317') }}
+{{ opt('propagation', grafana_propagation, 'w3c') }}
+{{ opt('insecure', grafana_insecure, false) }}
+
+[external_image_storage]
+{{ opt('provider', grafana_provider, '') }}
+
+[external_image_storage.s3]
+{{ opt('endpoint', grafana_endpoint, '') }}
+{{ opt('path_style_access', grafana_path_style_access, '') }}
+{{ opt('bucket', grafana_bucket, '') }}
+{{ opt('region', grafana_region, '') }}
+{{ opt('path', grafana_path, '') }}
+{{ opt('access_key', grafana_access_key, '') }}
+{{ opt('secret_key', grafana_secret_key, '') }}
+
+[external_image_storage.webdav]
+{{ opt('url', grafana_url, '') }}
+{{ opt('username', grafana_username, '') }}
+{{ opt('password', grafana_password, '') }}
+{{ opt('public_url', grafana_public_url, '') }}
+
+[external_image_storage.gcs]
+{{ opt('key_file', grafana_key_file, '') }}
+{{ opt('bucket', grafana_bucket, '') }}
+{{ opt('path', grafana_path, '') }}
+{{ opt('enable_signed_urls', grafana_enable_signed_urls, false) }}
+{{ opt('signed_url_expiration', grafana_signed_url_expiration, '') }}
+
+[external_image_storage.azure_blob]
+{{ opt('account_name', grafana_account_name, '') }}
+{{ opt('account_key', grafana_account_key, '') }}
+{{ opt('container_name', grafana_container_name, '') }}
+{{ opt('sas_token_expiration_days', grafana_sas_token_expiration_days, '') }}
+
+[external_image_storage.local]
+
+[rendering]
+{{ opt('server_url', grafana_server_url, '') }}
+{{ opt('callback_url', grafana_callback_url, '') }}
+{{ opt('renderer_token', grafana_renderer_token, '-') }}
+{{ opt('concurrent_render_request_limit', grafana_concurrent_render_request_limit, 30) }}
+{{ opt('render_key_lifetime', grafana_render_key_lifetime, '5m') }}
+{{ opt('default_image_width', grafana_default_image_width, 1000) }}
+{{ opt('default_image_height', grafana_default_image_height, 500) }}
+{{ opt('default_image_scale', grafana_default_image_scale, 1) }}
+
+[panels]
+{{ opt('disable_sanitize_html', grafana_disable_sanitize_html, false) }}
+
+[plugins]
+{{ opt('enable_alpha', grafana_enable_alpha, false) }}
+{{ opt('app_tls_skip_verify_insecure', grafana_app_tls_skip_verify_insecure, false) }}
+{{ opt('allow_loading_unsigned_plugins', grafana_allow_loading_unsigned_plugins, '') }}
+{{ opt('plugin_admin_enabled', grafana_plugin_admin_enabled, false) }}
+{{ opt('plugin_admin_external_manage_enabled', grafana_plugin_admin_external_manage_enabled, false) }}
+{{ opt('plugin_catalog_url', grafana_plugin_catalog_url, 'https://grafana.com/grafana/plugins/') }}
+{{ opt('plugin_catalog_hidden_plugins', grafana_plugin_catalog_hidden_plugins, '') }}
+{{ opt('log_backend_requests', grafana_log_backend_requests, false) }}
+{{ opt('public_key_retrieval_disabled', grafana_public_key_retrieval_disabled, false) }}
+{{ opt('public_key_retrieval_on_startup', grafana_public_key_retrieval_on_startup, false) }}
+{{ opt('disable_plugins', grafana_disable_plugins, '') }}
+
+[live]
+{{ opt('max_connections', grafana_max_connections, 100) }}
+{{ opt('allowed_origins', grafana_allowed_origins, '') }}
+{{ opt('ha_engine', grafana_ha_engine, '') }}
+{{ opt('ha_engine_address', grafana_ha_engine_address, '127.0.0.1:6379') }}
+{{ opt('ha_engine_password', grafana_ha_engine_password, '') }}
+{{ opt('ha_prefix', grafana_ha_prefix, '') }}
+
+[plugin.grafana-image-renderer]
+{{ opt('rendering_timezone', grafana_rendering_timezone, '') }}
+{{ opt('rendering_language', grafana_rendering_language, '') }}
+{{ opt('rendering_viewport_device_scale_factor', grafana_rendering_viewport_device_scale_factor, '') }}
+{{ opt('rendering_ignore_https_errors', grafana_rendering_ignore_https_errors, '') }}
+{{ opt('rendering_verbose_logging', grafana_rendering_verbose_logging, '') }}
+{{ opt('rendering_dumpio', grafana_rendering_dumpio, '') }}
+{{ opt('rendering_timing_metrics', grafana_rendering_timing_metrics, '') }}
+{{ opt('rendering_tracing_url', grafana_rendering_tracing_url, '') }}
+{{ opt('rendering_args', grafana_rendering_args, '') }}
+{{ opt('rendering_chrome_bin', grafana_rendering_chrome_bin, '') }}
+{{ opt('rendering_mode', grafana_rendering_mode, '') }}
+{{ opt('rendering_clustering_mode', grafana_rendering_clustering_mode, '') }}
+{{ opt('rendering_clustering_max_concurrency', grafana_rendering_clustering_max_concurrency, '') }}
+{{ opt('rendering_clustering_timeout', grafana_rendering_clustering_timeout, '') }}
+{{ opt('rendering_viewport_max_width', grafana_rendering_viewport_max_width, '') }}
+{{ opt('rendering_viewport_max_height', grafana_rendering_viewport_max_height, '') }}
+{{ opt('rendering_viewport_max_device_scale_factor', grafana_rendering_viewport_max_device_scale_factor, '') }}
+{{ opt('grpc_host', grafana_grpc_host, '') }}
+{{ opt('grpc_port', grafana_grpc_port, '') }}
+
+[enterprise]
+{{ opt('license_path', grafana_license_path, '') }}
+
+[feature_toggles]
+{{ opt('enable', grafana_enable, 'feature1,feature2') }}
+{{ opt('feature1', grafana_feature1, true) }}
+{{ opt('feature2', grafana_feature2, false) }}
+
+[date_formats]
+{{ opt('full_date', grafana_full_date, 'YYYY-MM-DD HH:mm:ss') }}
+{{ opt('interval_second', grafana_interval_second, 'HH:mm:ss') }}
+{{ opt('interval_minute', grafana_interval_minute, 'HH:mm') }}
+{{ opt('interval_hour', grafana_interval_hour, 'MM/DD HH:mm') }}
+{{ opt('interval_day', grafana_interval_day, 'MM/DD') }}
+{{ opt('interval_month', grafana_interval_month, 'YYYY-MM') }}
+{{ opt('interval_year', grafana_interval_year, 'YYYY') }}
+{{ opt('use_browser_locale', grafana_use_browser_locale, false) }}
+{{ opt('default_timezone', grafana_default_timezone, 'browser') }}
+
+[expressions]
+{{ opt('enabled', grafana_enabled, true) }}
+
+[geomap]
+{{ opt('default_baselayer_config', grafana_default_baselayer_config, '`{') }}
+{{ opt('enable_custom_baselayers', grafana_enable_custom_baselayers, true) }}
+
+[support_bundles]
+
+[navigation.app_sections]
+
+[navigation.app_standalone_pages]
+
+[secure_socks_datasource_proxy]
+{{ opt('enabled', grafana_enabled, false) }}
+{{ opt('root_ca_cert', grafana_root_ca_cert, '') }}
+{{ opt('client_key', grafana_client_key, '') }}
+{{ opt('client_cert', grafana_client_cert, '') }}
+{{ opt('server_name', grafana_server_name, '') }}
+{{ opt('proxy_address', grafana_proxy_address, '') }}
+{{ opt('show_ui', grafana_show_ui, true) }}
+{{ opt('allow_insecure', grafana_allow_insecure, false) }}
+
+[feature_management]
+{{ opt('allow_editing', grafana_allow_editing, false) }}
+{{ opt('update_webhook', grafana_update_webhook, '') }}
+{{ opt('update_webhook_token', grafana_update_webhook_token, '') }}
+{{ opt('hidden_toggles', grafana_hidden_toggles, '') }}
+{{ opt('read_only_toggles', grafana_read_only_toggles, '') }}
+
+[public_dashboards]
+{{ opt('enabled', grafana_enabled, true) }}
+
+[cloud_migration]
+{{ opt('is_target', grafana_is_target, false) }}
+{{ opt('gcom_api_token', grafana_gcom_api_token, '') }}
+{{ opt('start_snapshot_timeout', grafana_start_snapshot_timeout, '5s') }}
+{{ opt('validate_key_timeout', grafana_validate_key_timeout, '5s') }}
+{{ opt('get_snapshot_status_timeout', grafana_get_snapshot_status_timeout, '5s') }}
+{{ opt('create_upload_url_timeout', grafana_create_upload_url_timeout, '5s') }}
+{{ opt('report_event_timeout', grafana_report_event_timeout, '5s') }}
+{{ opt('fetch_instance_timeout', grafana_fetch_instance_timeout, '5s') }}
+{{ opt('create_access_policy_timeout', grafana_create_access_policy_timeout, '5s') }}
+{{ opt('fetch_access_policy_timeout', grafana_fetch_access_policy_timeout, '5s') }}
+{{ opt('delete_access_policy_timeout', grafana_delete_access_policy_timeout, '5s') }}
+{{ opt('domain', grafana_domain, 'grafana-dev.net') }}
+{{ opt('snapshot_folder', grafana_snapshot_folder, '') }}
+{{ opt('frontend_poll_interval', grafana_frontend_poll_interval, '2s') }}
+{{ opt('alert_rules_state', grafana_alert_rules_state, 'paused') }}
+
+[frontend_dev]
+{{ opt('fail_tests_on_console', grafana_fail_tests_on_console, true) }}

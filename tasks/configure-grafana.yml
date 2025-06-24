@@ -1,0 +1,16 @@
+---
+- name: Configure Grafana data source
+  ansible.builtin.template:
+    src: files/grafana-grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+    backup: yes
+  notify:
+    - Restart Grafana
+
+- name: Configure Grafana LDAP
+  ansible.builtin.template:
+    src: files/grafana-ldap.toml.j2
+    dest: /etc/grafana/ldap.toml
+    backup: yes
+  notify:
+    - Restart Grafana

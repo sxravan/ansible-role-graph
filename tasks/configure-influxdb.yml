@@ -1,0 +1,12 @@
+---
+- name: Bootstrap InfluxDB 2.x (only once)
+      command: >
+        influx setup
+          --username {{ influx_admin_user }}
+          --password '{{ influx_admin_pass }}'
+          --org {{ influx_org }}
+          --bucket {{ influx_bucket }}
+          --retention {{ influx_retention }}
+          --force
+      args:
+        creates: "{{ influx_cli_config }}"

@@ -24,3 +24,11 @@
 - name: Install grafana
   include_tasks: install-grafana.yml
   when: "'grafana' not in ansible_facts.packages"
+
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: apt
+
+- name: Applying grafana configurations
+  include_tasks: configure-grafana.yml
+  when: "'grafana' in ansible_facts.packages"

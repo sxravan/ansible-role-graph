@@ -15,3 +15,11 @@ grafana_apt_key_url: "https://apt.grafana.com/gpg.key"
 grafana_package:
   - grafana
 grafana_service: grafana-server
+
+# influxdb configuration
+influx_admin_user: admin
+influx_admin_pass: "{{ vault_influx_admin_pass }}"
+influx_org: oilboot
+influx_bucket: metrics
+influx_retention: 168h
+influx_cli_config: "/root/.influxdbv2/configs/default"
