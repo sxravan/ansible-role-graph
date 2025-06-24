@@ -1,16 +1,20 @@
-{% macro opt(key, var, default) -%}
+{% macro opt(key, var, default, json=false) -%}
+  {# pick var if defined, else default #}
   {%- if var is defined -%}
-    {%- if var is boolean -%}
-      {{ key }} = {{ var|lower }}
-    {%- else -%}
-      {{ key }} = "{{ var }}"
-    {%- endif -%}
+    {%- set v = var -%}
   {%- else -%}
-    {%- if default is boolean -%}
-      ;{{ key }} = {{ default|lower }}
-    {%- else -%}
-      ;{{ key }} = {{ default }}
-    {%- endif -%}
+    {%- set v = default -%}
+  {%- endif -%}
+
+  {# JSON arrays via tojson #}
+  {%- if json -%}
+    {{ key }} = {{ v | tojson }}
+  {%- elif v is boolean -%}
+    {{ key }} = {{ v | lower }}
+  {%- elif v is number -%}
+    {{ key }} = {{ v }}
+  {%- else -%}
+    {{ key }} = "{{ v }}"
   {%- endif -%}
 {%- endmacro %}
 # This file is managed by Ansible. Do not edit manually.
@@ -40,6 +44,10 @@
 [[servers.group_mappings]]
 group_dn = '{{ m.group_dn }}'
 org_role = '{{ m.org_role }}'
-{% if m.grafana_admin is defined %}grafana_admin = {{ m.grafana_admin | lower }}{% endif %}
-{% if m.org_id is defined %}org_id = {{ m.org_id }}{% endif %}
+{% if m.grafana_admin is defined %}
+grafana_admin = {{ m.grafana_admin | lower }}
+{% endif %}
+{% if m.org_id is defined %}
+org_id = {{ m.org_id }}
+{% endif %}
 {% endfor %}
