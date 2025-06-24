@@ -16,7 +16,7 @@
 {{ opt('min_tls_version', grafana_ldap_min_tls_version, '') }}
 {{ opt('ssl_skip_verify', grafana_ldap_ssl_skip_verify, 'false') }}
 {{ opt('bind_dn', grafana_ldap_bind_dn, 'cn=admin,dc=grafana,dc=org') }}
-{{ opt('bind_password', grafana_ldap_bind_password, ''grafana'') }}
+{{ opt('bind_password', grafana_ldap_bind_password, 'grafana') }}
 {{ opt('timeout', grafana_ldap_timeout, '10') }}
 {{ opt('search_filter', grafana_ldap_search_filter, '(cn=%s)') }}
 {{ opt('search_base_dns', grafana_ldap_search_base_dns, '[dc=grafana,dc=org]') }}
@@ -30,8 +30,8 @@
 
 {% for m in grafana_ldap_group_mappings %}
 [[servers.group_mappings]]
-group_dn = "{{ m.group_dn }}"
-org_role = "{{ m.org_role }}"
+group_dn = '{{ m.group_dn }}'
+org_role = '{{ m.org_role }}'
 {% if m.grafana_admin is defined %}grafana_admin = {{ m.grafana_admin | lower }}{% endif %}
 {% if m.org_id is defined %}org_id = {{ m.org_id }}{% endif %}
 {% endfor %}
