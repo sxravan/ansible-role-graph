@@ -1,4 +1,5 @@
 {% macro opt(key, var, default=None, json=false) -%}
+  {#— pick value & prefix —#}
   {%- if var is defined -%}
     {%- set v = var -%}
     {%- set prefix = '' -%}
@@ -9,10 +10,11 @@
     {%- set v = none -%}
   {%- endif -%}
 
+  {#— emit one line with exactly one space around “=” —#}
   {%- if v is not none -%}
-{{- prefix }}{{ key }} = {%- if json or (v is sequence and v is not string) -%}{{ v | tojson }}{%- elif v is boolean -%}{{ v | lower }}{%- elif v is number -%}{{ v }}{%- else -%}"{{ v }}"{%- endif -%}
+{{ prefix }}{{ key }} = {% if json or (v is sequence and v is not string) %}{{ v | tojson }}{% elif v is boolean %}{{ v | lower }}{% elif v is number %}{{ v }}{% else %}"{{ v }}"{% endif %}
   {%- endif -%}
-{%- endmacro %}
+{% endmacro %}
 # This file is managed by Ansible. Do not edit manually.
 
 [[servers]]
