@@ -2,8 +2,6 @@
   {%- if var is defined or default is not none -%}
     {%- if var is defined -%}
       {%- set v = var -%}
-    {%- else -%}
-      {%- set v = default -%}
     {%- endif -%}
 
     {%- if json -%}
@@ -25,7 +23,7 @@
 {{ opt('use_ssl', grafana_ldap_use_ssl, 'false') }}
 {{ opt('start_tls', grafana_ldap_start_tls, 'false') }}
 {{ opt('tls_ciphers', grafana_ldap_tls_ciphers, '[]') }}
-{{ opt('min_tls_version', grafana_ldap_min_tls_version, '') }}
+{{ opt('min_tls_version', grafana_ldap_min_tls_version) }}
 {{ opt('ssl_skip_verify', grafana_ldap_ssl_skip_verify, 'false') }}
 {{ opt('bind_dn', grafana_ldap_bind_dn, 'cn=admin,dc=grafana,dc=org') }}
 {{ opt('bind_password', grafana_ldap_bind_password, 'grafana') }}

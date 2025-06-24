@@ -2,8 +2,6 @@
   {%- if var is defined or default is not none -%}
     {%- if var is defined -%}
       {%- set v = var -%}
-    {%- else -%}
-      {%- set v = default -%}
     {%- endif -%}
 
     {%- if json -%}
