@@ -1,9 +1,17 @@
 {% macro opt(key, var, default) -%}
-{%- if var is defined -%}
-{{ key }} = {{ var|string|lower }}
-{%- else -%}
-;{{ key }} = {{ default|string|lower }}
-{%- endif -%}
+  {%- if var is defined -%}
+    {%- if var is boolean -%}
+      {{ key }} = {{ var|lower }}
+    {%- else -%}
+      {{ key }} = {{ var }}
+    {%- endif -%}
+  {%- else -%}
+    {%- if default is boolean -%}
+      ;{{ key }} = {{ default|lower }}
+    {%- else -%}
+      ;{{ key }} = {{ default }}
+    {%- endif -%}
+  {%- endif -%}
 {%- endmacro %}
 # This file is managed by Ansible. Do not edit manually.
 

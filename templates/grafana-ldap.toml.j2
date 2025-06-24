@@ -1,9 +1,17 @@
 {% macro opt(key, var, default, json=false) -%}
-{%- if var is defined -%}
-{{ key }} = {{ var|string|lower if not json else var|tojson }}
-{%- else -%}
-;{{ key }} = {{ default|string|lower if not json else default|tojson }}
-{%- endif -%}
+  {%- if var is defined -%}
+    {%- set v = var -%}
+  {%- else -%}
+    {%- set v = default -%}
+  {%- endif -%}
+
+  {%- if json -%}
+    {{ key }} = {{ v | tojson }}
+  {%- elif v is boolean -%}
+    {{ key }} = {{ v | lower }}
+  {%- else -%}
+    {{ key }} = {{ v }}
+  {%- endif -%}
 {%- endmacro %}
 # This file is managed by Ansible. Do not edit manually.
 
