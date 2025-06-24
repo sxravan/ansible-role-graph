@@ -10,16 +10,7 @@
   {%- endif -%}
 
   {%- if v is not none -%}
-{{- prefix }}{{ key }} = 
-    {%- if json -%}
-      {{ v | tojson }}
-    {%- elif v is boolean -%}
-      {{ v | lower }}
-    {%- elif v is number -%}
-      {{ v }}
-    {%- else -%}
-      "{{ v }}"
-    {%- endif -%}
+{{- prefix }}{{ key }} = {%- if json -%}{{ v | tojson }}{%- elif v is boolean -%}{{ v | lower }}{%- elif v is number -%}{{ v }}{%- else -%}"{{ v }}"{%- endif -%}
   {%- endif -%}
 {%- endmacro %}
 # This file is managed by Ansible. Do not edit manually.
