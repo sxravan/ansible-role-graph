@@ -5,6 +5,9 @@
   {%- elif default is not none -%}
     {%- set v = default -%}
     {%- set prefix = '#' -%}
+  {%- else -%}
+    {%- set v = none -%}
+    {%- set prefix = '' -%}
   {%- endif -%}
 
   {%- if v is not none -%}
