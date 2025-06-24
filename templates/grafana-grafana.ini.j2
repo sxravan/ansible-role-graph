@@ -3,11 +3,10 @@
   {%- if var is defined -%}
     {%- set v = var -%}
     {%- set prefix = '' -%}
-  {%- elif default is not none -%}
+  {%- endif -%}
+  {%- if var is not defined -%}
     {%- set v = default -%}
     {%- set prefix = ';' -%}
-  {%- else -%}
-    {%- set v = none -%}
   {%- endif -%}
 
   {#— emit one line with exactly one space around “=” —#}
