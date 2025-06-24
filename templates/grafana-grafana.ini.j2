@@ -1,17 +1,24 @@
 {% macro opt(key, var, default=None, json=false) -%}
-  {%- if var is defined or default is not none -%}
-    {%- if var is defined -%}
-      {%- set v = var -%}
-    {%- endif -%}
+  {%- if var is defined -%}
+    {%- set v = var -%}
+    {%- set prefix = '' -%}
+  {%- elif default is not none -%}
+    {%- set v = default -%}
+    {%- set prefix = ';' -%}
+  {%- else -%}
+    {%- set v = none -%}
+  {%- endif -%}
 
+  {%- if v is not none -%}
+{{- prefix }}{{ key }} = 
     {%- if json -%}
-      {{ key }} = {{ v | tojson }}
+      {{ v | tojson }}
     {%- elif v is boolean -%}
-      {{ key }} = {{ v | lower }}
+      {{ v | lower }}
     {%- elif v is number -%}
-      {{ key }} = {{ v }}
+      {{ v }}
     {%- else -%}
-      {{ key }} = "{{ v }}"
+      "{{ v }}"
     {%- endif -%}
   {%- endif -%}
 {%- endmacro %}
