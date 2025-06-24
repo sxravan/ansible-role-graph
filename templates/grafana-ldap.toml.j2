@@ -1,13 +1,10 @@
 {% macro opt(key, var, default=None, json=false) -%}
   {%- if var is not undefined -%}
-    {%- set v = "torpa" -%}
+    {%- set v = var -%}
     {%- set prefix = '' -%}
   {%- elif default is not none -%}
-    {%- set v = "torma" -%}
+    {%- set v = default -%}
     {%- set prefix = '#' -%}
-  {%- else -%}
-    {%- set v = none -%}
-    {%- set prefix = '' -%}
   {%- endif -%}
 
   {%- if v is not none -%}
@@ -31,8 +28,8 @@
 {{ opt('search_base_dns', grafana_ldap_search_base_dns, '[dc=grafana,dc=org]') }}
 
 [servers.attributes]
-{{ opt('name', grafana_ldap_attributes_name, 'givenName') }}
 {{ opt('surname', grafana_ldap_attributes_surname, 'sn') }}
+{{ opt('name', grafana_ldap_attributes_name, 'givenName') }}
 {{ opt('username', grafana_ldap_attributes_username, 'cn') }}
 {{ opt('member_of', grafana_ldap_attributes_member_of, 'memberOf') }}
 {{ opt('email', grafana_ldap_attributes_email, 'email') }}
