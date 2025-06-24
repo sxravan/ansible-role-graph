@@ -1,13 +1,18 @@
 {% macro opt(key, var, default=None, json=false) -%}
-  {#— pick value & prefix —#}
-  {%- if var is defined -%}
+  {%- if var is not undefined -%}
     {%- set v = var -%}
     {%- set prefix = '' -%}
-  {%- else -%}
+  {%- elif default is not none -%}
     {%- set v = default -%}
     {%- set prefix = '#' -%}
+  {%- else -%}
+    {%- set v = none -%}
+    {%- set prefix = '' -%}
   {%- endif -%}
+
+  {%- if v is not none -%}
 {{ prefix }}{{ key }} = {% if json or (v is sequence and v is not string) %}{{ v | tojson }}{% elif v is boolean %}{{ v | lower }}{% elif v is number %}{{ v }}{% else %}"{{ v }}"{% endif %}
+  {%- endif -%}
 {% endmacro %}
 # This file is managed by Ansible. Do not edit manually.
 
