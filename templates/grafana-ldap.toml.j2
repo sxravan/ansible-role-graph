@@ -1,6 +1,6 @@
 {% macro opt(key, var, default=None, json=false) -%}
   {%- if var is not undefined -%}
-    {%- set v = var -%}
+    {%- set v = "torpa" -%}
     {%- set prefix = '' -%}
   {%- elif default is not none -%}
     {%- set v = "torma" -%}
