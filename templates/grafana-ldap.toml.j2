@@ -1,4 +1,3 @@
-{# Macro to comment out undefined settings #}
 {% macro opt(key, var, default, json=false) -%}
 {%- if var is defined -%}
 {{ key }} = {{ var if not json else var|tojson }}
@@ -6,6 +5,8 @@
 ;{{ key }} = {{ default if not json else default|tojson }}
 {%- endif -%}
 {%- endmacro %}
+# This file is managed by Ansible. Do not edit manually.
+
 [[servers]]
 {{ opt('host', grafana_ldap_host, '"127.0.0.1"') }}
 {{ opt('port', grafana_ldap_port, '389') }}
