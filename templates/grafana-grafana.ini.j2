@@ -148,9 +148,9 @@
 {{ opt('x_content_type_options', grafana_x_content_type_options, true) }}
 {{ opt('x_xss_protection', grafana_x_xss_protection, true) }}
 {{ opt('content_security_policy', grafana_content_security_policy, false) }}
-{{ opt('content_security_policy_template', grafana_content_security_policy_template, 'script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;object-src 'none';font-src 'self';style-src 'self' 'unsafe-inline' blob:;img-src * data:;base-uri 'self';connect-src 'self' grafana.com ws://$ROOT_PATH wss://$ROOT_PATH;manifest-src 'self';media-src 'none';form-action 'self';') }}
+{{ opt('content_security_policy_template', grafana_content_security_policy_template, "'script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;object-src 'none';font-src 'self';style-src 'self' 'unsafe-inline' blob:;img-src * data:;base-uri 'self';connect-src 'self' grafana.com ws://$ROOT_PATH wss://$ROOT_PATH;manifest-src 'self';media-src 'none';form-action 'self';'") }}
 {{ opt('content_security_policy_report_only', grafana_content_security_policy_report_only, false) }}
-{{ opt('content_security_policy_report_only_template', grafana_content_security_policy_report_only_template, 'script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;object-src 'none';font-src 'self';style-src 'self' 'unsafe-inline' blob:;img-src * data:;base-uri 'self';connect-src 'self' grafana.com ws://$ROOT_PATH wss://$ROOT_PATH;manifest-src 'self';media-src 'none';form-action 'self';') }}
+{{ opt('content_security_policy_report_only_template', grafana_content_security_policy_report_only_template, "'script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;object-src 'none';font-src 'self';style-src 'self' 'unsafe-inline' blob:;img-src * data:;base-uri 'self';connect-src 'self' grafana.com ws://$ROOT_PATH wss://$ROOT_PATH;manifest-src 'self';media-src 'none';form-action 'self';'") }}
 {{ opt('angular_support_enabled', grafana_angular_support_enabled, false) }}
 {{ opt('csrf_trusted_origins', grafana_csrf_trusted_origins, 'example.com') }}
 {{ opt('csrf_additional_headers', grafana_csrf_additional_headers, '') }}
