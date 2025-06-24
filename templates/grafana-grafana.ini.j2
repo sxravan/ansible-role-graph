@@ -3,7 +3,7 @@
     {%- if var is boolean -%}
       {{ key }} = {{ var|lower }}
     {%- else -%}
-      {{ key }} = {{ var }}
+      {{ key }} = "{{ var }}"
     {%- endif -%}
   {%- else -%}
     {%- if default is boolean -%}

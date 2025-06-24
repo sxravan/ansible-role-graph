@@ -10,7 +10,7 @@
   {%- elif v is boolean -%}
     {{ key }} = {{ v | lower }}
   {%- else -%}
-    {{ key }} = {{ v }}
+    {{ key }} = "{{ v }}"
   {%- endif -%}
 {%- endmacro %}
 # This file is managed by Ansible. Do not edit manually.
