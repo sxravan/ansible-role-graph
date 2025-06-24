@@ -477,12 +477,12 @@
 {{ opt('tls_skip_verify_insecure', grafana_tls_skip_verify_insecure, false) }}
 
 [auth.ldap]
-{{ opt('enabled', grafana_enabled, false) }}
-{{ opt('config_file', grafana_config_file, '/etc/grafana/ldap.toml') }}
-{{ opt('allow_sign_up', grafana_allow_sign_up, true) }}
-{{ opt('skip_org_role_sync', grafana_skip_org_role_sync, false) }}
-{{ opt('sync_cron', grafana_sync_cron, '0 1 * * *') }}
-{{ opt('active_sync_enabled', grafana_active_sync_enabled, true) }}
+{{ opt('enabled', grafana_ldap_enabled, false) }}
+{{ opt('config_file', grafana_ldap_config_file, '/etc/grafana/ldap.toml') }}
+{{ opt('allow_sign_up', grafana_ldap_allow_sign_up, true) }}
+{{ opt('skip_org_role_sync', grafana_ldap_skip_org_role_sync, false) }}
+{{ opt('sync_cron', grafana_ldap_sync_cron, '0 1 * * *') }}
+{{ opt('active_sync_enabled', grafana_ldap_active_sync_enabled, true) }}
 
 [aws]
 {{ opt('allowed_auth_providers', grafana_allowed_auth_providers, 'default,keys,credentials') }}
